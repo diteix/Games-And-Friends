@@ -1,0 +1,16 @@
+.toolbar span {
+    flex: 2;
+    text-align: center;
+}
+
+.container {
+    height: 100%;
+    
+    .menu {
+        width: 10%;
+
+        a.active {
+            background-color: #303030;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+    angular:
+        container_name: games-and-friends-web
+        build: ./Web/GamesAndFriends-Web
+        ports:
+            - '4200:80'
+        depends_on:
+            - api
+
+    api:
+        container_name: games-and-friends-api
+        build: 
+            context: .
+            dockerfile: Api/Dockerfile
+        ports:
+            - '5001:80'
+            - '5000:443'

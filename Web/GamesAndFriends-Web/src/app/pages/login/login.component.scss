@@ -1,0 +1,36 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #303030;
+}
+
+.toolbar {
+    position: fixed;
+    top: 0;
+
+    span {
+        flex: 2;
+        text-align: center;
+    }
+}
+
+.card {
+    max-width: 800px;
+    width: 20%;
+
+    .header {
+        justify-content: center;
+    }
+
+    .content form {
+        display: flex;
+        flex-direction: column;
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+        }
+    }
+}

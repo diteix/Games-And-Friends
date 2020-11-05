@@ -1,0 +1,20 @@
+.wrapper {
+    padding: 40px;
+
+    .accordion {
+
+        .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+            align-items: center;
+        }
+
+        .mat-expansion-panel-header-description {
+            justify-content: flex-end;
+        }
+    }
+}
+
+.toolbar {
+    position: sticky;
+    bottom: 64px;
+    justify-content: center;
+}

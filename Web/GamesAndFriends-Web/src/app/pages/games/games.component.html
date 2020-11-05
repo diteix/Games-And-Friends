@@ -1,0 +1,28 @@
+<mat-card class="card" *ngFor="let game of games; let i = index">
+    <mat-card-header class="header">
+        <mat-card-title>{{ game.name }}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="https://i.pinimg.com/originals/ef/17/13/ef1713664570291e8ebe09c7a2d790dc.png" alt="Game cover">
+    <mat-card-content class="content">
+        <div>
+            <span *ngIf="game.friend">
+                Game lent to: {{ game.friend.name }}
+            </span>
+        </div>
+        <mat-divider></mat-divider>
+    </mat-card-content>
+    <mat-card-actions class="actions">
+        <button mat-button *ngIf="!game.friend" (click)="openLendDialog(game)">Lend</button>
+        <button mat-button *ngIf="game.friend" (click)="takeBack(game)">Take back</button>
+        <mat-divider [vertical]="true"></mat-divider>
+        <button mat-button (click)="openAddEditDialog(i, game)">Edit</button>
+        <mat-divider [vertical]="true"></mat-divider>
+        <button mat-button (click)="delete(i, game.id)">Delete</button>
+    </mat-card-actions>
+</mat-card>
+<mat-toolbar class="toolbar">
+    <button mat-button (click)="openAddEditDialog()">
+        <mat-icon>add</mat-icon>
+        Add
+    </button>
+</mat-toolbar>

@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" class="toolbar">
+    <span>Games and Friends App</span>
+</mat-toolbar>
+<mat-card class="card">
+    <mat-card-header class="header">
+        <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password">
+            </mat-form-field>
+            <button mat-stroked-button [disabled]="form.invalid">Submit</button>
+        </form>
+    </mat-card-content>
+</mat-card>

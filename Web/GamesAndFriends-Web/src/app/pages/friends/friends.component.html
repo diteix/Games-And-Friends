@@ -1,0 +1,28 @@
+<div class="wrapper">
+    <mat-accordion class="accordion">
+        <mat-expansion-panel [disabled]="isExpasionDisabled" *ngFor="let friend of friends; let i = index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ friend.name }}
+            </mat-panel-title>
+            <mat-panel-description>
+                <button mat-icon-button (click)="isExpasionDisabled = true;openDialog(i, friend)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button [disabled]="!!friend.games.length" (click)="isExpasionDisabled = true;delete(i, friend.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>
+            Borrowed games: {{ borrowedGames(friend) }}
+          </p>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
+<mat-toolbar class="toolbar">
+    <button mat-button (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+        Add
+    </button>
+</mat-toolbar>
