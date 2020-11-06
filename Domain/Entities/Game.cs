@@ -13,5 +13,9 @@ namespace GamesAndFriends.Domain.Entities
         [ForeignKey(nameof(Friend))]
         public int? FriendId { get; set; }
         public Friend Friend { get; set; }
+
+        public bool IsLent() {
+            return this.FriendId.HasValue;
+        }
     }
 }

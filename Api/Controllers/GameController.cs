@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -35,7 +34,8 @@ namespace GamesAndFriends.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<GameDto>> Add([FromBody]GameDto model)
         {
-            if (!ModelState.IsValid) {
+            if (model is null || !TryValidateModel(model)) 
+            {
                 return BadRequest(ModelState);
             }
 
@@ -45,7 +45,8 @@ namespace GamesAndFriends.Api.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult<GameDto>> Update(int id, [FromBody]GameDto model)
         {
-            if (!ModelState.IsValid) {
+            if (model is null || !TryValidateModel(model)) 
+            {
                 return BadRequest(ModelState);
             }
             
@@ -55,7 +56,12 @@ namespace GamesAndFriends.Api.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await this._application.DeleteAsync(id);
+            var canBeDeleted = await this._application.DeleteAsync(id);
+
+            if (!canBeDeleted)
+            {
+                return BadRequest(new { message = "Game can't be deleted" });
+            }
 
             return Ok();
         }
@@ -63,7 +69,12 @@ namespace GamesAndFriends.Api.Controllers
         [HttpPatch("{id:int}/lend")]
         public async Task<IActionResult> Lend(int id, [FromBody]int idFriend) 
         {
-            await this._application.LendAsync(id, idFriend);
+            var canBeLent = await this._application.LendAsync(id, idFriend);
+
+            if (!canBeLent)
+            {
+                return BadRequest(new { message = "Game is already lent" });
+            }
 
             return NoContent();
         }

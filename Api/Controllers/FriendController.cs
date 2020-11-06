@@ -34,7 +34,8 @@ namespace GamesAndFriends.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<FriendDto>> Add([FromBody]FriendDto model)
         {
-            if (!ModelState.IsValid) {
+            if (model is null || !TryValidateModel(model)) 
+            {
                 return BadRequest(ModelState);
             }
 
@@ -44,7 +45,8 @@ namespace GamesAndFriends.Api.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult<FriendDto>> Update(int id, [FromBody]FriendDto model)
         {
-            if (!ModelState.IsValid) {
+            if (model is null || !TryValidateModel(model)) 
+            {
                 return BadRequest(ModelState);
             }
             
@@ -54,7 +56,12 @@ namespace GamesAndFriends.Api.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await this._application.DeleteAsync(id);
+            var canBeDeleted = await this._application.DeleteAsync(id);
+
+            if (!canBeDeleted)
+            {
+                return BadRequest(new { message = "Friend can't be deleted" });
+            }
 
             return Ok();
         }

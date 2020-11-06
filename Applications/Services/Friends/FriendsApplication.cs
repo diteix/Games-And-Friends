@@ -31,14 +31,28 @@ namespace GamesAndFriends.Application.Services.Friends
             return this._mapper.Map<FriendDto>(await this._mediator.Send(command));
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
+            var query = new GetFriendQuery()
+            {
+                Id = id
+            };
+
+            var friend = await this._mediator.Send(query);
+
+            if (friend.HasGamesBorroweds())
+            {
+                return false;
+            }
+
             var command = new DeleteFriendCommand()
             {
                 Id = id
             };
 
             await this._mediator.Send(command);
+
+            return true;
         }
 
         public async Task<IList<FriendDto>> GetAllAsync()

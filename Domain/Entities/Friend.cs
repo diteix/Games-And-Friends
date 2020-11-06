@@ -13,5 +13,10 @@ namespace GamesAndFriends.Domain.Entities
         public string Name { get; set; }
         [ForeignKey(nameof(Game.FriendId))]
         public virtual ICollection<Game> Games { get; set; }
+
+        public bool HasGamesBorroweds() 
+        {
+            return !(this.Games is null) && this.Games.Count > 0;
+        }
     }
 }

@@ -17,7 +17,7 @@
         <mat-divider [vertical]="true"></mat-divider>
         <button mat-button (click)="openAddEditDialog(i, game)">Edit</button>
         <mat-divider [vertical]="true"></mat-divider>
-        <button mat-button (click)="delete(i, game.id)">Delete</button>
+        <button mat-button [disabled]="!!game.friend" (click)="delete(i, game.id)">Delete</button>
     </mat-card-actions>
 </mat-card>
 <mat-toolbar class="toolbar">

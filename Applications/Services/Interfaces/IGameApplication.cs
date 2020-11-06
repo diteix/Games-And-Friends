@@ -5,7 +5,7 @@ namespace GamesAndFriends.Application.Services.Interfaces
 {
     public interface IGameApplication : ICrudApplication<GameDto>
     { 
-        Task LendAsync(int id, int idFriend);
+        Task<bool> LendAsync(int id, int idFriend);
         Task TakeBackAsync(int id);
     }
 }

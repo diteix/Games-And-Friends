@@ -2,12 +2,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using GamesAndFriends.Application.Dtos.Game;
-using GamesAndFriends.Application.Dtos.User;
 using GamesAndFriends.Application.Services.Interfaces;
 using GamesAndFriends.Domain.Entities;
 using GamesAndFriends.Domain.Services.Games.Command;
 using GamesAndFriends.Domain.Services.Games.Query;
-using GamesAndFriends.Domain.Services.Users.Query;
 using MediatR;
 
 namespace GamesAndFriends.Application.Services.Games 
@@ -33,14 +31,28 @@ namespace GamesAndFriends.Application.Services.Games
             return this._mapper.Map<GameDto>(await this._mediator.Send(command));
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
+            var query = new GetGameQuery()
+            {
+                Id = id
+            };
+
+            var game = await this._mediator.Send(query);
+
+            if (game.IsLent()) 
+            {
+                return false;
+            }
+
             var command = new DeleteGameCommand()
             {
                 Id = id
             };
 
             await this._mediator.Send(command);
+
+            return true;
         }
 
         public async Task<IList<GameDto>> GetAllAsync()
@@ -69,25 +81,39 @@ namespace GamesAndFriends.Application.Services.Games
             return this._mapper.Map<GameDto>(await this._mediator.Send(command));
         }
 
-        public async Task LendAsync(int id, int idFriend)
+        public async Task<bool> LendAsync(int id, int idFriend)
         {
-            var query = new LendGameCommand()
+            var query = new GetGameQuery()
+            {
+                Id = id
+            };
+
+            var game = await this._mediator.Send(query);
+
+            if (game.IsLent()) 
+            {
+                return false;
+            }
+
+            var command = new LendGameCommand()
             {
                 Id = id,
                 IdFriend = idFriend
             };
 
-            await this._mediator.Send(query);
+            await this._mediator.Send(command);
+
+            return true;
         }
 
         public async Task TakeBackAsync(int id)
         {
-            var query = new TakeBackGameCommand()
+            var command = new TakeBackGameCommand()
             {
                 Id = id
             };
 
-            await this._mediator.Send(query);
+            await this._mediator.Send(command);
         }
     }
 }
